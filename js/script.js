@@ -17,7 +17,14 @@ const apiKey = NASA_API_KEY;
 const spaceFacts = [
   'Did You Know? A day on Venus is longer than a year on Venus.',
   'Did You Know? Jupiter has a storm larger than Earth that has lasted for hundreds of years.',
-  'Did You Know? Saturn could float in water because it is mostly made of gas.'
+  'Did You Know? Saturn could float in water because it is mostly made of gas.',
+  'Did You Know? The footprints left by astronauts on the Moon will remain for millions of years because there is no wind to erode them.',
+  'Did You Know? The Sun accounts for 99.86% of the mass in our solar system.',
+  'Did You Know? A teaspoon of a neutron star would weigh about 6 billion tons on Earth.',
+  'Did You Know? The largest volcano in the solar system is Olympus Mons on Mars, which is about 13.6 miles high.',
+  'Did You Know? The Milky Way galaxy is estimated to contain over 100 billion stars.',
+  'Did You Know? The Hubble Space Telescope has helped scientists discover that the universe is expanding at an accelerating rate.',
+  'Did You Know? Black holes can warp space and time, creating gravitational lensing effects that bend light around them.'
 ];
 
 function showRandomFact() {
