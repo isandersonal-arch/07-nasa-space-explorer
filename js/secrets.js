@@ -1,1 +1,1 @@
-684WcxOYJKajPYXmxZgtBhPlcDgvyJ2oxygHgqeh
+const NASA_API_KEY = '684WcxOYJKajPYXmxZgtBhPlcDgvyJ2oxygHgqeh';

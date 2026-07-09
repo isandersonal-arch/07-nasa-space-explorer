@@ -10,13 +10,85 @@ setupDateInputs(startInput, endInput);
 
 // Select the button and gallery container elements from the HTML
 const imageBtn = document.getElementById('image-btn');
+const gallery = document.getElementById('gallery');
+const apiKey = NASA_API_KEY;
+
+function showPlaceholder(message) {
+  gallery.innerHTML = `
+    <div class="placeholder">
+      <div class="placeholder-icon">🔭</div>
+      <p>${message}</p>
+    </div>
+  `;
+}
 
 // Add an Event Listener to the Button
 imageBtn.addEventListener('click', function () {
-  console.log('Retrieving space images...');
-})
+  const startDate = startInput.value;
+  const endDate = endInput.value;
 
-// Function to fetch images from NASA API
+  if (!startDate || !endDate) {
+    showPlaceholder('Please choose a start and end date.');
+    return;
+  }
 
-// Fetch data from the API
+  if (startDate > endDate) {
+    showPlaceholder('Start date must be before or equal to the end date.');
+    return;
+  }
+
+  showPlaceholder('Loading space images...');
+
+  // Build the NASA APOD API URL using the selected date range
+  const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&start_date=${startDate}&end_date=${endDate}`;
+
+  fetch(apiUrl)
+    .then(function (response) {
+      if (!response.ok) {
+        throw new Error('Unable to load NASA images.');
+      }
+      return response.json();
+    })
+    .then(function (photos) {
+      gallery.innerHTML = '';
+
+      if (!photos || photos.length === 0) {
+        showPlaceholder('No space images were found for that date range.');
+        return;
+      }
+
+      photos.forEach(function (photo) {
+        if (photo.media_type !== 'image') {
+          return;
+        }
+
+        const card = document.createElement('div');
+        card.className = 'gallery-item';
+
+        const image = document.createElement('img');
+        image.src = photo.hdurl || photo.url;
+        image.alt = photo.title;
+        image.loading = 'lazy';
+
+        const title = document.createElement('h3');
+        title.textContent = photo.title;
+
+        const date = document.createElement('p');
+        date.textContent = photo.date;
+
+        const explanation = document.createElement('p');
+        explanation.textContent = photo.explanation;
+
+        card.appendChild(image);
+        card.appendChild(title);
+        card.appendChild(date);
+        card.appendChild(explanation);
+        gallery.appendChild(card);
+      });
+    })
+    .catch(function (error) {
+      console.error(error);
+      showPlaceholder('Something went wrong while loading NASA images.');
+    });
+});
 
