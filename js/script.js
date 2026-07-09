@@ -11,7 +11,21 @@ setupDateInputs(startInput, endInput);
 // Select the button and gallery container elements from the HTML
 const imageBtn = document.getElementById('image-btn');
 const gallery = document.getElementById('gallery');
+const factBox = document.getElementById('fact');
 const apiKey = NASA_API_KEY;
+
+const spaceFacts = [
+  'Did You Know? A day on Venus is longer than a year on Venus.',
+  'Did You Know? Jupiter has a storm larger than Earth that has lasted for hundreds of years.',
+  'Did You Know? Saturn could float in water because it is mostly made of gas.'
+];
+
+function showRandomFact() {
+  const randomIndex = Math.floor(Math.random() * spaceFacts.length);
+  factBox.textContent = spaceFacts[randomIndex];
+}
+
+showRandomFact();
 
 function showPlaceholder(message) {
   gallery.innerHTML = `
