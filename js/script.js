@@ -8,10 +8,15 @@ const endInput = document.getElementById('endDate');
 // - Restrict dates to NASA's image archive (starting from 1995)
 setupDateInputs(startInput, endInput);
 
-//Select the button and gallery container elements from the HTML
+// Select the button and gallery container elements from the HTML
 const imageBtn = document.getElementById('image-btn');
 
 // Add an Event Listener to the Button
 imageBtn.addEventListener('click', function () {
   console.log('Retrieving space images...');
 })
+
+// Function to fetch images from NASA API
+
+// Fetch data from the API
+
