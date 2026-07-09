@@ -11,6 +11,11 @@ setupDateInputs(startInput, endInput);
 // Select the button and gallery container elements from the HTML
 const imageBtn = document.getElementById('image-btn');
 const gallery = document.getElementById('gallery');
+const modal = document.getElementById('modal');
+const modalImage = document.getElementById('modal-image');
+const modalTitle = document.getElementById('modal-title');
+const modalExplanation = document.getElementById('modal-explanation');
+const closeModalBtn = document.getElementById('close-modal');
 const apiKey = NASA_API_KEY;
 
 function showPlaceholder(message) {
@@ -21,6 +26,32 @@ function showPlaceholder(message) {
     </div>
   `;
 }
+
+function openModal(photo) {
+  modalImage.src = photo.hdurl || photo.url;
+  modalImage.alt = photo.title;
+  modalTitle.textContent = photo.title;
+  modalExplanation.textContent = photo.explanation;
+  modal.classList.remove('hidden');
+}
+
+function closeModal() {
+  modal.classList.add('hidden');
+}
+
+closeModalBtn.addEventListener('click', closeModal);
+
+modal.addEventListener('click', function (event) {
+  if (event.target === modal) {
+    closeModal();
+  }
+});
+
+document.addEventListener('keydown', function (event) {
+  if (event.key === 'Escape') {
+    closeModal();
+  }
+});
 
 // Add an Event Listener to the Button
 imageBtn.addEventListener('click', function () {
@@ -79,10 +110,18 @@ imageBtn.addEventListener('click', function () {
         const explanation = document.createElement('p');
         explanation.textContent = photo.explanation;
 
+        const button = document.createElement('button');
+        button.className = 'look-closer-btn';
+        button.textContent = 'Look Closer';
+        button.addEventListener('click', function () {
+          openModal(photo);
+        });
+
         card.appendChild(image);
         card.appendChild(title);
         card.appendChild(date);
         card.appendChild(explanation);
+        card.appendChild(button);
         gallery.appendChild(card);
       });
     })
