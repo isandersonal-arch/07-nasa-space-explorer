@@ -145,6 +145,11 @@ button:hover {
   height: 200px;
   object-fit: cover;
   border-radius: 4px;
+  transition: transform 0.9s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(2);
 }
 
 .gallery-item p {
