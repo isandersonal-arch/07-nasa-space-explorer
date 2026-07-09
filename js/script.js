@@ -11,11 +11,6 @@ setupDateInputs(startInput, endInput);
 // Select the button and gallery container elements from the HTML
 const imageBtn = document.getElementById('image-btn');
 const gallery = document.getElementById('gallery');
-const modal = document.getElementById('modal');
-const modalImage = document.getElementById('modal-image');
-const modalTitle = document.getElementById('modal-title');
-const modalExplanation = document.getElementById('modal-explanation');
-const closeModalBtn = document.getElementById('close-modal');
 const apiKey = NASA_API_KEY;
 
 function showPlaceholder(message) {
@@ -26,32 +21,6 @@ function showPlaceholder(message) {
     </div>
   `;
 }
-
-function openModal(photo) {
-  modalImage.src = photo.hdurl || photo.url;
-  modalImage.alt = photo.title;
-  modalTitle.textContent = photo.title;
-  modalExplanation.textContent = photo.explanation;
-  modal.classList.remove('hidden');
-}
-
-function closeModal() {
-  modal.classList.add('hidden');
-}
-
-closeModalBtn.addEventListener('click', closeModal);
-
-modal.addEventListener('click', function (event) {
-  if (event.target === modal) {
-    closeModal();
-  }
-});
-
-document.addEventListener('keydown', function (event) {
-  if (event.key === 'Escape') {
-    closeModal();
-  }
-});
 
 // Add an Event Listener to the Button
 imageBtn.addEventListener('click', function () {
@@ -101,6 +70,10 @@ imageBtn.addEventListener('click', function () {
         image.alt = photo.title;
         image.loading = 'lazy';
 
+        const overlay = document.createElement('div');
+        overlay.className = 'card-overlay';
+        overlay.textContent = 'Take a Closer Look';
+
         const title = document.createElement('h3');
         title.textContent = photo.title;
 
@@ -110,18 +83,54 @@ imageBtn.addEventListener('click', function () {
         const explanation = document.createElement('p');
         explanation.textContent = photo.explanation;
 
-        const button = document.createElement('button');
-        button.className = 'look-closer-btn';
-        button.textContent = 'Look Closer';
-        button.addEventListener('click', function () {
-          openModal(photo);
-        });
-
         card.appendChild(image);
+        card.appendChild(overlay);
         card.appendChild(title);
         card.appendChild(date);
         card.appendChild(explanation);
-        card.appendChild(button);
+
+        card.addEventListener('click', function () {
+          const modal = document.createElement('div');
+          modal.className = 'modal';
+
+          const modalContent = document.createElement('div');
+          modalContent.className = 'modal-content';
+
+          const closeButton = document.createElement('button');
+          closeButton.className = 'modal-close';
+          closeButton.textContent = '×';
+
+          const modalImage = document.createElement('img');
+          modalImage.className = 'modal-image';
+          modalImage.src = photo.hdurl || photo.url;
+          modalImage.alt = photo.title;
+
+          const modalTitle = document.createElement('h3');
+          modalTitle.className = 'modal-title';
+          modalTitle.textContent = photo.title;
+
+          const modalText = document.createElement('p');
+          modalText.className = 'modal-text';
+          modalText.textContent = photo.explanation;
+
+          closeButton.addEventListener('click', function () {
+            document.body.removeChild(modal);
+          });
+
+          modal.addEventListener('click', function (event) {
+            if (event.target === modal) {
+              document.body.removeChild(modal);
+            }
+          });
+
+          modalContent.appendChild(closeButton);
+          modalContent.appendChild(modalImage);
+          modalContent.appendChild(modalTitle);
+          modalContent.appendChild(modalText);
+          modal.appendChild(modalContent);
+          document.body.appendChild(modal);
+        });
+
         gallery.appendChild(card);
       });
     })
