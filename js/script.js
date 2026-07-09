@@ -80,14 +80,10 @@ imageBtn.addEventListener('click', function () {
         const date = document.createElement('p');
         date.textContent = photo.date;
 
-        const explanation = document.createElement('p');
-        explanation.textContent = photo.explanation;
-
         card.appendChild(image);
         card.appendChild(overlay);
         card.appendChild(title);
         card.appendChild(date);
-        card.appendChild(explanation);
 
         card.addEventListener('click', function () {
           const modal = document.createElement('div');
